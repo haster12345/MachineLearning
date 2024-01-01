@@ -1,6 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from dummy_data import dummy_data_fn
 
 """
 linear regression:
@@ -13,21 +14,27 @@ linear regression:
 logistic linear regression
 """
 
-df = pd.read_csv('rent_data/House_Rent_Dataset.csv')
+# df = pd.read_csv('rent_data/House_Rent_dataset.csv')
 
-features = df.drop('Rent', axis=1)
-target_variables = df['Rent']
+df = dummy_data_fn()
+features = df.drop('sinxy_values', axis=1)
+target_variables = df['sinxy_values']
 
 features_train, features_test, target_variables_train, target_variables_test = (
     train_test_split(features, target_variables, test_size=0.2, random_state=42))
 
-print(np.array(features_train))
+# print(len(features_train))
 
+class Data:
+    def __init__(self, path) -> None:
+        # self.df = pd.read_csv(path)
+        self.df = dummy_data_fn()
+        self.feature = self.df.drop('sinxy_values', axis=1)
+        self.target_variables = self.df['sinxy_values']
 
 class LinearRegression:
 
-    def __init__(self, alpha, features_train, target_variables_train, number_of_parameters):
-
+    def __init__(self, alpha, features_train, target_variables_train):
         """
         :param alpha: learning_rate
 
@@ -46,20 +53,28 @@ class LinearRegression:
         self.target_variables_train = np.array(target_variables_train)
 
         self.number_of_outputs: int = len(self.target_variables_train)
-        self.number_of_features: int = len(self.features_train[0])
+        self.number_of_inputs: int = len(self.features_train)
 
-        self.initial_vector_of_parameters: np.array = np.zeros(number_of_parameters)
-        self.hypothesis_vector = np.ones(number_of_parameters)
+        self.number_of_parameters = len(self.features_train[0])
+
+        self.initial_vector_of_parameters: np.array = np.zeros(self.number_of_parameters)
+        # self.initial_vector_of_parameters[0] = 1
+
+        self.hypothesis_vector = np.ones(self.number_of_parameters) 
 
     def hypothesis_equation(self, vector_of_parameters, row):
         """
         h(x) = theta^T X
         :return: h(X)
         """
+
+        # print(self.features_train[row])
+
         hypothesis_value = 0
-        for i in range(self.number_of_features):
+        for i in range(self.number_of_parameters):
             hypothesis_value += vector_of_parameters[i] * self.features_train[row][i]
 
+        print(hypothesis_value)
         return hypothesis_value
 
     def ordinary_least_squares(self, vector_of_parameters):
@@ -78,22 +93,33 @@ class LinearRegression:
 
         vector_of_parameters = self.initial_vector_of_parameters
 
-        for j in range(self.number_of_features):
+        for j in range(self.number_of_parameters):
+            print(vector_of_parameters)
             theta = vector_of_parameters[j]
             sum_LMS = 0
             for i in range(self.number_of_outputs):
                 sum_LMS += ((self.target_variables_train[i] - self.hypothesis_equation(vector_of_parameters, i))
                             * self.features_train[i][j])
 
-            theta = theta * self.alpha * sum_LMS
+            theta = theta + self.alpha * sum_LMS
+
+            # print(abs(vector_of_parameters[j] - theta))
 
             if abs(vector_of_parameters[j] - theta) < abs_diff:
                 vector_of_parameters[j] = theta
+
+                print('convergence error rate reached')
                 return vector_of_parameters
 
             vector_of_parameters[j] = theta
+        
         return vector_of_parameters
 
     def normal_equations(self):
         pass
-# LinearRegression(0.01, )
+
+    def mean_square_error(self):
+        pass
+
+x = LinearRegression(0.01, features_train=features_train, target_variables_train=target_variables_train).batch_gradient_descent()
+print(x)
