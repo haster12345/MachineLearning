@@ -48,8 +48,12 @@ class LinearRegression:
 
         self.alpha: float = alpha
 
-        self.features_train = np.array(features_train)
+        self.features_train_no_intercept: np.array[np.array] = np.array(features_train)
+        self.features_shape = np.shape(self.features_train_no_intercept)
 
+        self.features_train = np.c_[np.ones(self.features_shape[0]), self.features_train_no_intercept]
+
+        
         self.target_variables_train = np.array(target_variables_train)
 
         self.number_of_outputs: int = len(self.target_variables_train)
@@ -61,6 +65,7 @@ class LinearRegression:
         # self.initial_vector_of_parameters[0] = 1
 
         self.hypothesis_vector = np.ones(self.number_of_parameters) 
+
 
     def hypothesis_equation(self, vector_of_parameters, row):
         """
@@ -74,7 +79,7 @@ class LinearRegression:
         for i in range(self.number_of_parameters):
             hypothesis_value += vector_of_parameters[i] * self.features_train[row][i]
 
-        print(hypothesis_value)
+        # print(hypothesis_value)
         return hypothesis_value
 
     def ordinary_least_squares(self, vector_of_parameters):
