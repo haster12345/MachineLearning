@@ -6,9 +6,9 @@ import pandas as pd
 def dummy_data_fn():
     sinxy = lambda x,y : np.sin((x*y))
 
-    x_values = [random.uniform(0, np.pi) for _ in range(1000)]
+    x_values = [random.uniform(0, np.pi/2) for _ in range(1000)]
 
-    y_values = [random.uniform(0, np.pi) for _ in range(1000)]
+    y_values = [random.uniform(0, np.pi/2) for _ in range(1000)]
 
     xy_values = []
 

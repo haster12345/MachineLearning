@@ -47,24 +47,17 @@ class LinearRegression:
         """
 
         self.alpha: float = alpha
-
         self.features_train_no_intercept: np.array[np.array] = np.array(features_train)
         self.features_shape = np.shape(self.features_train_no_intercept)
-
         self.features_train = np.c_[np.ones(self.features_shape[0]), self.features_train_no_intercept]
-
-        
         self.target_variables_train = np.array(target_variables_train)
-
         self.number_of_outputs: int = len(self.target_variables_train)
         self.number_of_inputs: int = len(self.features_train)
-
         self.number_of_parameters = len(self.features_train[0])
-
         self.initial_vector_of_parameters: np.array = np.zeros(self.number_of_parameters)
-        # self.initial_vector_of_parameters[0] = 1
-
         self.hypothesis_vector = np.ones(self.number_of_parameters) 
+        self.hypothesis_vector[0] = 0
+
 
 
     def hypothesis_equation(self, vector_of_parameters, row):
@@ -73,13 +66,10 @@ class LinearRegression:
         :return: h(X)
         """
 
-        # print(self.features_train[row])
-
         hypothesis_value = 0
         for i in range(self.number_of_parameters):
             hypothesis_value += vector_of_parameters[i] * self.features_train[row][i]
 
-        # print(hypothesis_value)
         return hypothesis_value
 
     def ordinary_least_squares(self, vector_of_parameters):
@@ -99,7 +89,6 @@ class LinearRegression:
         vector_of_parameters = self.initial_vector_of_parameters
 
         for j in range(self.number_of_parameters):
-            print(vector_of_parameters)
             theta = vector_of_parameters[j]
             sum_LMS = 0
             for i in range(self.number_of_outputs):
@@ -107,8 +96,6 @@ class LinearRegression:
                             * self.features_train[i][j])
 
             theta = theta + self.alpha * sum_LMS
-
-            # print(abs(vector_of_parameters[j] - theta))
 
             if abs(vector_of_parameters[j] - theta) < abs_diff:
                 vector_of_parameters[j] = theta
@@ -118,6 +105,23 @@ class LinearRegression:
 
             vector_of_parameters[j] = theta
         
+        return vector_of_parameters
+
+    def stochastic_gradient_descent(self, abs_diff = 0.0001):
+
+        vector_of_parameters = self.initial_vector_of_parameters
+
+        for j in range(self.number_of_outputs):
+            theta_j = vector_of_parameters[j]
+            for i in range(self.number_of_outputs):
+                theta_j = theta_j +  self.alpha * (self.target_variables_train[i] - self.hypothesis_equation(vector_of_parameters, i )) * self.features_train[i][j]
+
+                if abs(vector_of_parameters[j] - theta_j) < abs_diff:
+                    vector_of_parameters[j] = theta_j
+                    print('convergence error rate reached')
+                    
+                    return vector_of_parameters
+
         return vector_of_parameters
 
     def normal_equations(self):
@@ -135,7 +139,7 @@ class TestData:
 
     def mean_square_error(self):
 
-        vector_of_params_output = LinearRegression(0.00001, features_train=features_train, target_variables_train=target_variables_train).batch_gradient_descent()
+        vector_of_params_output = LinearRegression(0.0001, features_train=features_train, target_variables_train=target_variables_train).stochastic_gradient_descent()
         hypothesis_value = 0
         sum_se = 0
 
@@ -148,7 +152,10 @@ class TestData:
         return sum_se/self.features_shape[0]
 
 
-x = LinearRegression(0.001, features_train=features_train, target_variables_train=target_variables_train).batch_gradient_descent()
+x = LinearRegression(0.0001, features_train=features_train, target_variables_train=target_variables_train).batch_gradient_descent()
+print(x)
+
+x1 = LinearRegression(0.0001, features_train=features_train, target_variables_train=target_variables_train).stochastic_gradient_descent()
 print(x)
 
 y = TestData(target_variables_test=target_variables_test, features_test=features_test).mean_square_error()
