@@ -23,15 +23,6 @@ target_variables = df['sinxy_values']
 features_train, features_test, target_variables_train, target_variables_test = (
     train_test_split(features, target_variables, test_size=0.2, random_state=42))
 
-# print(len(features_train))
-
-class Data:
-    def __init__(self, path) -> None:
-        # self.df = pd.read_csv(path)
-        self.df = dummy_data_fn()
-        self.feature = self.df.drop('sinxy_values', axis=1)
-        self.target_variables = self.df['sinxy_values']
-
 class LinearRegression:
 
     def __init__(self, alpha, features_train, target_variables_train):
@@ -84,6 +75,7 @@ class LinearRegression:
                     self.hypothesis_equation(vector_of_parameters, row_num) - self.target_variables_train[row_num]) ** 2
         return OLS
 
+    
     def batch_gradient_descent(self, abs_diff=0.0001):
 
         vector_of_parameters = self.initial_vector_of_parameters
@@ -127,7 +119,8 @@ class LinearRegression:
     def normal_equations(self):
         pass
 
-class TestData:
+
+class TestModel:
 
     def __init__(self, target_variables_test, features_test) -> None:
         self.target_variables_test = np.array(target_variables_test)
@@ -156,7 +149,7 @@ x = LinearRegression(0.0001, features_train=features_train, target_variables_tra
 print(x)
 
 x1 = LinearRegression(0.0001, features_train=features_train, target_variables_train=target_variables_train).stochastic_gradient_descent()
-print(x)
+print(x1)
 
-y = TestData(target_variables_test=target_variables_test, features_test=features_test).mean_square_error()
+y = TestModel(target_variables_test=target_variables_test, features_test=features_test).mean_square_error()
 print(y)
