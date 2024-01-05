@@ -16,7 +16,7 @@ linear regression:
 logistic linear regression
 """
 
-if '__name__' == '__main__':
+if __name__ == '__main__':
 
     # df = pd.read_csv('rent_data/House_Rent_dataset.csv')
 
