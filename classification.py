@@ -35,6 +35,20 @@ class LogiscticRegression:
             dot_product += vector_of_parameters[i] * self.features_train[row][i]
 
         return 1/(1 + np.exp(dot_product))
+    
+    def threshold_function(self, vector_of_parameters, row):
+
+        dot_product = 0
+        
+        for i in range(self.number_of_parameters):
+            dot_product += vector_of_parameters[i] * self.features_train[row][i]
+        
+        if dot_product >= 0:
+            return 1
+        
+        else:
+            return 0
+
 
     def stochastic_gradient_descent(self, abs_diff = 0.0001):
 
@@ -43,7 +57,7 @@ class LogiscticRegression:
             for j in range(self.number_of_parameters):
 
                 theta_j = vector_of_parameters[j]
-                theta_j = theta_j +  self.alpha * (self.target_variables_train[i] - self.sigmoid_function(vector_of_parameters, i )) * self.features_train[i][j]
+                theta_j = theta_j +  self.alpha * (self.target_variables_train[i] - self.threshold_function(vector_of_parameters, i )) * self.features_train[i][j]
     
                 if abs(vector_of_parameters[j] - theta_j) < abs_diff:
                     vector_of_parameters[j] = theta_j
