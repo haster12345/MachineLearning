@@ -39,17 +39,14 @@ class LogiscticRegression:
     def stochastic_gradient_descent(self, abs_diff = 0.0001):
 
         vector_of_parameters = self.initial_vector_of_parameters
+        for i in range(self.number_of_outputs):
+            for j in range(self.number_of_parameters):
 
-        for j in range(self.number_of_outputs):
-            theta_j = vector_of_parameters[j]
-            for i in range(self.number_of_outputs):
+                theta_j = vector_of_parameters[j]
                 theta_j = theta_j +  self.alpha * (self.target_variables_train[i] - self.sigmoid_function(vector_of_parameters, i )) * self.features_train[i][j]
-
+    
                 if abs(vector_of_parameters[j] - theta_j) < abs_diff:
                     vector_of_parameters[j] = theta_j
-                    print('convergence error rate reached')
-                    
-                    return vector_of_parameters
 
         return vector_of_parameters
 
