@@ -90,6 +90,19 @@ class LinearRegression:
                     return vector_of_parameters
         return vector_of_parameters
 
+    def newton_method(self, function, function_deriv, vector_of_parameters):
+        for j in range(len(vector_of_parameters)):
+            # theta_j = vector_of_parameters[j]
+            vector_of_parameters[j] = vector_of_parameters[j] - (function(vector_of_parameters)/function_deriv(vector_of_parameters))
+        return vector_of_parameters 
+
+
+    def weights(self):
+        pass
+
+    def locally_weighted(self):
+        pass
+
     def normal_equations(self):
         pass
 

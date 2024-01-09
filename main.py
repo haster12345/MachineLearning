@@ -6,20 +6,6 @@ from dummy_data import dummy_data_classication_fn
 from linear_regression import LinearRegression
 from testmodel import TestModel
 
-"""
-linear regression:
-    - gradient descent
-        - stochastic
-        - batch
-    - solved solution
-    - locally weighted linear regression
-
-logistic linear regression
-"""
-
-
-
-
 
 if __name__ == '__main__':
 
