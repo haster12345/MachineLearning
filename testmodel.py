@@ -1,6 +1,6 @@
 import numpy as np
 from linear_regression import LinearRegression
-from classification import LogiscticRegression
+from classification import LogisticRegression
 
 
 class TestModel:
