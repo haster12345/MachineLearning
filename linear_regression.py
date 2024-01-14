@@ -6,19 +6,14 @@ class LinearRegression(BaseModel):
     def hypothesis_equation(self, vector_of_parameters, row):
         """
         h(x) = theta^T X
-        :return: h(X)
         """
-
-        hypothesis_value = 0
-        for i in range(self.number_of_parameters):
-            hypothesis_value += vector_of_parameters[i] * self.features_train[row][i]
-
+        
+        hypothesis_value = np.dot(vector_of_parameters, self.features_train[row])
         return hypothesis_value
 
     def ordinary_least_squares(self, vector_of_parameters):
         """
         J(theta) = 0.5 * sum{h(x^(i) - y^(i))^2}
-        :return:  J(theta)
         """
 
         OLS = 0  # J(theta)
@@ -79,5 +74,10 @@ class LinearRegression(BaseModel):
         pass
 
     def normal_equations(self):
-        pass
+
+        x_T_y = np.mat_mul(self.features_train.T, self.target_variables_train)
+        inverse = np.linalg.inv(np.mat_mul(self.features_train.T, self.features_train))
+        self.initial_vector_of_parameters = np.mat_mul(inverse,x_T_y)
+        
+        return self.initial_vector_of_parameters
 
