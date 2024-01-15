@@ -77,7 +77,7 @@ class LinearRegression(BaseModel):
 
         x_T_y = np.mat_mul(self.features_train.T, self.target_variables_train)
         inverse = np.linalg.inv(np.mat_mul(self.features_train.T, self.features_train))
-        self.initial_vector_of_parameters = np.mat_mul(inverse,x_T_y)
+        vector_of_parameters = np.mat_mul(inverse,x_T_y)
         
-        return self.initial_vector_of_parameters
+        return vector_of_parameters
 

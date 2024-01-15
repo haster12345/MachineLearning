@@ -5,6 +5,7 @@ from dummy_data import dummy_data_fn
 from dummy_data import dummy_data_classication_fn
 from linear_regression import LinearRegression
 from testmodel import TestModel
+from base_model import BaseModel
 
 
 if __name__ == '__main__':
@@ -43,3 +44,7 @@ if __name__ == '__main__':
                    ).mean_square_error(features_train_class, target_variables_class)    
 
     print(y1)
+
+    x2 = BaseModel(0.0001, features_train=features_train, target_variables_train=target_variables_train
+                         ).alpha
+    print(x2)
