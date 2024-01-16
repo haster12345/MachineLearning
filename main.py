@@ -27,24 +27,34 @@ if __name__ == '__main__':
         train_test_split(features_class, target_variables_class, test_size=0.2,random_state=42 )
     )
 
+    
+    LinearRegression_instance = LinearRegression(0.0001, features_train=features_train, target_variables_train=target_variables_train)
+    
+    TestModel_instance = TestModel(target_variables_test=target_variables_test, features_test=features_test)
 
-    x = LinearRegression(0.0001, features_train=features_train, target_variables_train=target_variables_train
-                         ).batch_gradient_descent()
+    BaseModel_instance = BaseModel(0.0001, features_train, target_variables_train)
+
+    x = LinearRegression_instance.batch_gradient_descent()
+    
     print(x)
 
-    x1 = LinearRegression(0.0001, features_train=features_train, target_variables_train=target_variables_train
-                          ).stochastic_gradient_descent()
+    x1 = LinearRegression_instance.stochastic_gradient_descent()
+    
     print(x1)
 
-    y = TestModel(target_variables_test=target_variables_test, features_test=features_test
-                  ).mean_square_error(features_train, target_variables)
+    y = TestModel_instance.mean_square_error(features_train, target_variables_train)
+
     print(y)
 
-    y1 = TestModel(target_variables_test=target_variables_test_class, features_test=features_test_class
-                   ).mean_square_error(features_train_class, target_variables_class)    
+    y1 = TestModel_instance.mean_square_error(features_train_class, target_variables_class)    
 
     print(y1)
 
-    x2 = BaseModel(0.0001, features_train=features_train, target_variables_train=target_variables_train
-                         ).alpha
+    x2 = BaseModel_instance.alpha
+    
     print(x2)
+    
+    x3 = LinearRegression_instance.normal_equations()
+    
+    print(x3)
+

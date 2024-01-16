@@ -10,10 +10,16 @@ class BaseModel:
 
     @property
     def alpha(self):
+        """
+        learning rate
+        """
         return self._alpha
 
     @property
     def features_train_no_intercept(self):
+        """
+        matrix of data
+        """
         return self._features_train_no_intercept
 
     @property
@@ -22,6 +28,9 @@ class BaseModel:
 
     @property
     def features_train(self):
+        """
+        2d np.array with x_0 = 1 for every row
+        """
         return np.c_[np.ones(self.features_shape[0]), self.features_train_no_intercept]
     
     @property

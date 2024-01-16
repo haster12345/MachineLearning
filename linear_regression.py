@@ -75,9 +75,9 @@ class LinearRegression(BaseModel):
 
     def normal_equations(self):
 
-        x_T_y = np.mat_mul(self.features_train.T, self.target_variables_train)
-        inverse = np.linalg.inv(np.mat_mul(self.features_train.T, self.features_train))
-        vector_of_parameters = np.mat_mul(inverse,x_T_y)
+        x_T_y = np.matmul(self.features_train.T, self.target_variables_train)
+        inverse = np.linalg.inv(np.matmul(self.features_train.T, self.features_train))
+        vector_of_parameters = np.matmul(inverse,x_T_y)
         
         return vector_of_parameters
 
