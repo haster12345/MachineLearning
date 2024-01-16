@@ -7,7 +7,6 @@ class BaseModel:
         self._features_train_no_intercept: np.array[np.array] = np.array(features_train)
         self.target_variables_train = np.array(target_variables_train)
         self.initial_vector_of_parameters: np.array = np.zeros(self.number_of_parameters)
-        self.hypothesis_vector = np.ones(self.number_of_parameters)
 
     @property
     def alpha(self):
